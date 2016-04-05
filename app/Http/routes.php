@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::resource('clients', 'ClientsController');
+
+Route::resource('emails', 'EmailsController');
