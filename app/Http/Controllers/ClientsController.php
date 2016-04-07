@@ -17,7 +17,29 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        
+        return view('clients.list');
+    }
+
+    /**
+     * Temporary function, to let the datatable get the client information throught ajax
+     * @return array $clients
+     */
+    public function get_all(){
+        $clients = Clients::all();
+        $data = array();
+        foreach($clients as $client){
+            $row = [
+                $client->id,
+                $client->company,
+                $client->email,
+                $client->name.' '.$client->last_name,
+                $client->has_responded,
+                $client->is_suscribed,
+            ];
+            $data[] = $row;
+        }
+
+        return [ 'data' => $data];
     }
 
     /**
@@ -39,6 +61,7 @@ class ClientsController extends Controller
     public function store(ClientRequest $request)
     {
         Clients::create($request->all());
+        flash()->success('Nice', 'Client created successfully.');
         return redirect()->back();
     }
 

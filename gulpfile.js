@@ -1,3 +1,4 @@
+process.env.DISABLE_NOTIFIER = true;
 var elixir = require('laravel-elixir');
 
 /*
@@ -17,6 +18,7 @@ elixir(function(mix) {
     	.styles([
     		'app.css',
     		'sweetalert.css',
+    		'datatables.css',
     		], 'public/css/main.css')
     	.browserify('app.js')
     	.version(['css/app.css', 'css/less.css', 'css/main.css', 'js/app.js']);

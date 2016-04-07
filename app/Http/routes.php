@@ -14,7 +14,7 @@
 Route::get('/', function () {
     return view('home');
 });
-
+Route::get('clients/getAll', 'ClientsController@get_all');
 Route::resource('clients', 'ClientsController');
 
 Route::resource('emails', 'EmailsController');

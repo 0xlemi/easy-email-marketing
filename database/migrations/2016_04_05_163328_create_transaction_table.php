@@ -13,19 +13,23 @@ class CreateTransactionTable extends Migration
     public function up()
     {
         Schema::create('transaction', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->integer('client_id');
+            $table->integer('client_id')->unsigned();
+            $table->integer('email_id')->unsigned();
+            $table->string('email_to');
+            $table->timestamps();
+        });
+
+        Schema::table('transaction', function(Blueprint $table){
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients')
                 ->onDelete('cascade');
-            $table->integer('email_id');
             $table->foreign('email_id')
                 ->references('id')
                 ->on('emails')
                 ->onDelete('cascade');
-            $table->string('email_to');
-            $table->timestamps();
         });
     }
 

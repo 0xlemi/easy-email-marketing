@@ -13,6 +13,7 @@ class CreateEmailTabel extends Migration
     public function up()
     {
         Schema::create('emails', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->tinyInteger('is_html');
             $table->string('path_to_email');
