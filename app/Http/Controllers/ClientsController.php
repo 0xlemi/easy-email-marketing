@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Requests\ClientRequest;
 use App\Http\Requests;
+use App\Clients;
 
 class ClientsController extends Controller
 {
@@ -15,7 +17,7 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -34,9 +36,10 @@ class ClientsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
-        //
+        Clients::create($request->all());
+        return redirect()->back();
     }
 
     /**
