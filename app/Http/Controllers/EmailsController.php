@@ -36,13 +36,12 @@ class EmailsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, \Faker\Generator $faker)
+    public function store(Request $request)
     {
-        // \PDF::loadHTML('<h1>Test</h1>')->save(public_path('images/emails/test.pdf'));
-        $this->validate($request, [
-            'name' => 'required|unique:emails|max:255',
-            'subject' => 'required|max:45',
-        ]);
+        // $this->validate($request, [
+        //     'name' => 'required|unique:emails|max:255',
+        //     'subject' => 'required|max:45',
+        // ]);
         $email = Email::create([
             'name' => $request->name, 
             'subject' => $request->subject,
@@ -55,11 +54,8 @@ class EmailsController extends Controller
             $data = $request->content;
             $write_result = fwrite($handle, $data);
 
-            $width = rand(100, 350);
-            $height = rand(150, 400);
-            $img = \Image::make($faker->imageUrl($width, $height, 'technics'));
             $img_path = 'images/emails/thumbnails/image_'.$email->id.'.jpg';
-            $tn_result = $img->save(public_path($img_path));
+            $tn_result = \ImageHTML::loadHTML($data)->save(public_path($img_path));
 
             $email->path_to_email = $file_path;
             $email->path_thumbnail = $img_path;
