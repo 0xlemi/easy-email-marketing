@@ -11,9 +11,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="{{ url('/clients') }}">Clients</a></li>
-            <li><a href="{{ url('/transactions') }}">Transactions</a></li>
-            <li><a href="{{ url('/clients') }}">Emails</a></li>
+            <li class="{{ Request::is('clients')? 'active':'' }}"><a href="{{ url('/clients') }}">Clients</a></li>
+            <li class="{{ Request::is('transactions')? 'active':'' }}"><a href="{{ url('/transactions') }}">Transactions</a></li>
+            <li class="{{ Request::is('emails')? 'active':'' }}"><a href="{{ url('/emails') }}">Emails</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

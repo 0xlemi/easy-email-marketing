@@ -12,7 +12,7 @@ class CreateTransactionTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('client_id')->unsigned();
@@ -21,7 +21,7 @@ class CreateTransactionTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table('transaction', function(Blueprint $table){
+        Schema::table('transactions', function(Blueprint $table){
             $table->foreign('client_id')
                 ->references('id')
                 ->on('clients')
@@ -40,6 +40,6 @@ class CreateTransactionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('transaction');
+        Schema::drop('transactions');
     }
 }

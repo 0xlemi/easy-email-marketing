@@ -1,10 +1,10 @@
 @extends('layout.app')
 
 @section('content')
-<h1>All the clients:</h1>
+<h2>All the clients:</h2>
 <hr>
 <div class="row">
-	<table id="table_id" class="table table-hover">
+	<table id="clients_table" class="table">
 		<thead>
             <tr>
                 <th>#</th>

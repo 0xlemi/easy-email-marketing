@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests;
-use App\Clients;
+use App\Client;
+use Carbon\Carbon;
 
 class ClientsController extends Controller
 {
@@ -22,24 +23,27 @@ class ClientsController extends Controller
 
     /**
      * Temporary function, to let the datatable get the client information throught ajax
-     * @return array $clients
+     * Array formated for datatable
+     * @return array 
      */
-    public function get_all(){
-        $clients = Clients::all();
-        $data = array();
-        foreach($clients as $client){
-            $row = [
-                $client->id,
-                $client->company,
-                $client->email,
-                $client->name.' '.$client->last_name,
-                $client->has_responded,
-                $client->is_suscribed,
-            ];
-            $data[] = $row;
+    public function get_all(Request $request){
+        if($request->ajax()){
+            $clients = Client::all();
+            $data = array();
+            foreach($clients as $client){
+                $row = [
+                    $client->id,
+                    $client->company,
+                    $client->email,
+                    $client->name.' '.$client->last_name,
+                    $client->has_responded,
+                    $client->is_suscribed,
+                ];
+                $data[] = $row;
+            }
+            return [ 'data' => $data];
         }
-
-        return [ 'data' => $data];
+        return redirect('clients');
     }
 
     /**
@@ -60,7 +64,15 @@ class ClientsController extends Controller
      */
     public function store(ClientRequest $request)
     {
-        Clients::create($request->all());
+        $data = [
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'company' => $request->company,
+            'is_suscribed' => ($request->is_suscribed) ? 1 : 0,
+            'has_responded' => ($request->has_responded) ? 1 : 0,
+        ];
+        Client::create($data);
         flash()->success('Nice', 'Client created successfully.');
         return redirect()->back();
     }
@@ -73,7 +85,8 @@ class ClientsController extends Controller
      */
     public function show($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        return view('clients.show', compact('client'));
     }
 
     /**
@@ -84,7 +97,8 @@ class ClientsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $client = Client::findOrFail($id);
+        return view('clients.edit', compact('client'));
     }
 
     /**
@@ -96,7 +110,18 @@ class ClientsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $client = Client::findOrFail($id);
+        $client->name = $request->name;
+        $client->last_name = $request->last_name;
+        $client->email = $request->email;
+        $client->is_suscribed = ($request->is_suscribed) ? 1 : 0;
+        $client->has_responded = ($request->has_responded) ? 1 : 0;
+        if($client->save()){
+            flash()->success('Updated', 'Client successfully updated.');
+        }else{
+            flash()->error('Not Updated', 'Client could not be updated, try again later.');
+        }
+        return redirect('clients/'.$client->id);
     }
 
     /**
@@ -107,6 +132,12 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Client::destroy($id)){
+            flash()->success("Deleted", "The client has been deleted.");
+        }else{
+            flash()->success("Not Deleted", "Client could not be deleted, try again later.");
+        }
+        return redirect('clients');
+
     }
 }

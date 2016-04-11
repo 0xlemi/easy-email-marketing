@@ -15,6 +15,9 @@ class CreateEmailTabel extends Migration
         Schema::create('emails', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('name');
+            $table->string('subject');
+            $table->string('path_thumbnail');
             $table->tinyInteger('is_html');
             $table->string('path_to_email');
             $table->timestamps();
