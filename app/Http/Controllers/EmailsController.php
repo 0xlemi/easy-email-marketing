@@ -49,12 +49,12 @@ class EmailsController extends Controller
         ]);
 
         try{
-            $file_path = 'files/emails/file_'.$email->id.'.html';
+            $file_path = 'storage/files/emails/file_'.$email->id.'.html';
             $handle = fopen(public_path($file_path), 'w') or die('Cannot open file:  '.$my_file);
             $data = $request->content;
             $write_result = fwrite($handle, $data);
 
-            $img_path = 'images/emails/thumbnails/image_'.$email->id.'.jpg';
+            $img_path = 'storage/images/emails/thumbnails/image_'.$email->id.'.jpg';
             $tn_result = \ImageHTML::loadHTML($data)->save(public_path($img_path));
 
             $email->path_to_email = $file_path;
