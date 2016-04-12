@@ -5,6 +5,12 @@
 	background-color: #337ab7;
 	color: #FFF;
 }
+body {
+    font-family: 'Lato';
+}
+.fa-btn {
+    margin-right: 6px;
+}
 
 
 

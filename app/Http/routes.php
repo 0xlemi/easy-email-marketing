@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
 Route::get('clients/getAll', 'ClientsController@get_all');
 Route::resource('clients', 'ClientsController');
 
 Route::resource('emails', 'EmailsController');
+Route::auth();
+
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
