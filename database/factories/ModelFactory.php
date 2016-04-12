@@ -33,7 +33,7 @@ $factory->define(App\Email::class, function(Faker\Generator $faker){
 	$width = rand(100, 350);
 	$height = rand(150, 400);
 	$img = Image::make($faker->imageUrl($width, $height, 'cats'));
-	$img_path = 'images/emails/thumbnails/'.str_random(40).'.jpg';
+	$img_path = 'storage/emails/images/'.str_random(40).'.jpg';
 	$img->save('public/'.$img_path);
 	return[
 		'name' => $faker->word,
@@ -45,14 +45,12 @@ $factory->define(App\Email::class, function(Faker\Generator $faker){
 });
 
 $factory->define(App\Transaction::class, function(Faker\Generator $faker){
-	$min = 1;
-	$max = 20;
-	$client_id = rand($min, $max);
+	$client_id = rand(1, 50);
 	$client = App\Client::find($client_id);
 	$client->add_send_counter();
 	return[
 		'client_id' => $client_id,
-		'email_id' => rand($min, $max),
+		'email_id' => rand(1, 2),
 		'email_to' => $client->email,
 	];
 });

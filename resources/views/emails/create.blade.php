@@ -16,7 +16,6 @@
 				<label for="subject">Email subject:</label>
 				<input type="text" class="form-control" name="subject">
 			</div>
-			
 		</div>
 	</div>
 	<div class="row">

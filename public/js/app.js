@@ -49315,7 +49315,9 @@ $("[name='has_responded']").bootstrapSwitch();
  *
  */
 $('#summernote').summernote({
-    height: 400
+    height: 600,
+    minHeight: null,
+    maxHeight: null
 });
 
 /*

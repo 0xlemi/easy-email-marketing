@@ -48,25 +48,8 @@ class EmailsController extends Controller
             'is_html' => 1,
         ]);
 
-        try{
-            $file_path = 'storage/files/emails/file_'.$email->id.'.html';
-            $handle = fopen(public_path($file_path), 'w') or die('Cannot open file:  '.$my_file);
-            $data = $request->content;
-            $write_result = fwrite($handle, $data);
-
-            $img_path = 'storage/images/emails/thumbnails/image_'.$email->id.'.jpg';
-            $tn_result = \ImageHTML::loadHTML($data)->save(public_path($img_path));
-
-            $email->path_to_email = $file_path;
-            $email->path_thumbnail = $img_path;
-
-            $result_persist = $email->save();
-        }catch (Exception $e){
-            $email->delete();
-            flash()->error('Error', 'There was a fatal error');
-            return redirect()->back();
-        }
-        if ($write_result && $tn_result && $result_persist){
+        $result = $email->save_content($request->content);
+        if ($result){
             flash()->success('Created', 'Email created successfully.');
         }else{
             flash()->error('Not created', 'The email could not be created. Try again later.');
@@ -82,7 +65,8 @@ class EmailsController extends Controller
      */
     public function show($id)
     {
-        //
+        $email = Email::findOrFail($id);
+        return view('emails.show', compact('email'));
     }
 
     /**
@@ -93,7 +77,11 @@ class EmailsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $email = Email::findOrFail($id);
+        $file_path = $email->path_to_email;
+        $handle = fopen($file_path, 'r');
+        $content = fread($handle,filesize($file_path)); 
+        return view('emails.edit', compact('email', 'content'));
     }
 
     /**
@@ -105,7 +93,18 @@ class EmailsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $email = Email::findOrFail($id);
+        $email->name = $request->name;
+        $email->subject = $request->subject;
+
+        $result = $email->save_content($request->content);
+        if ($result){
+            flash()->success('Updated', 'Email was updated successfully.');
+        }else{
+            flash()->error('Not updated', 'The email could not be updated. Try again later.');
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -116,6 +115,11 @@ class EmailsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Email::destroy($id)){
+            flash()->success("Deleted", "The email has been deleted.");
+        }else{
+            flash()->success("Not Deleted", "Email could not be deleted, try again later.");
+        }
+        return redirect('emails');
     }
 }

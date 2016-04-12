@@ -23,14 +23,28 @@
 							<h4><small>{{ $client->company }}</small></h4>
 							<h4><small>{{ $client->name.' '.$client->last_name }}</small></h4>
 							<h4><small>{{ $client->email }}</small></h4>
-							<h4><small><span class="label label-{{ ($client->has_responded) ? 'success' : 'danger' }}">{{ ($client->has_responded) ? 'Yes' : 'No' }}</span></small></h4>
-							<h4><small><span class="label label-{{ ($client->is_suscribed) ? 'success' : 'danger' }}">{{ ($client->is_suscribed) ? 'Yes' : 'No' }}</span></small></h4>
+							<h4>
+								<small>
+									<span class="label label-{{ ($client->has_responded) ? 'success' : 'danger' }}">
+										{{ ($client->has_responded) ? 'Yes' : 'No' }}
+									</span>
+								</small>
+							</h4>
+							<h4>
+								<small>
+									<span class="label label-{{ ($client->is_suscribed) ? 'success' : 'danger' }}">
+										{{ ($client->is_suscribed) ? 'Yes' : 'No' }}
+									</span>
+								</small>
+							</h4>
 							<h4><small>{{ $client->created_at }}</small></h4>
 							<h4><small>{{ $client->times_sent }}</small></h4>
 						</div>
 					</div>
 		        </div>
-		        <a class="pull-right btn text-danger" data-method="delete" data-token="{{ csrf_token() }}" data-confirm="Are you sure?" href="{{ url('/clients/'.$client->id) }}">Delete Client</a>
+		        <a class="pull-right btn text-danger" 
+		        	data-method="delete" data-token="{{ csrf_token() }}" 
+		        	data-confirm="Are you sure?" href="{{ url('/clients/'.$client->id) }}">Delete Client</a>
 
 		        <a class="pull-right btn btn-link" href="{{ url('/clients/'.$client->id.'/edit') }}">Edit Client</a>
 	        </div>
