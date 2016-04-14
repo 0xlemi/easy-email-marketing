@@ -8,7 +8,7 @@ use App\Http\Requests\ClientRequest;
 use App\Http\Requests;
 use App\Client;
 use Carbon\Carbon;
-
+use JavaScript;
 class ClientsController extends Controller
 {
 
@@ -29,7 +29,11 @@ class ClientsController extends Controller
      */
     public function index()
     {
-        return view('clients.list');
+        $clients = Client::all();
+        JavaScript::put([
+            'url' => url('clients').'/',
+        ]);
+        return view('clients.list', compact('clients'));
     }
 
     /**

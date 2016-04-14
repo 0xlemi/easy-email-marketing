@@ -23,6 +23,9 @@
 
 	<a class="pull-right btn btn-link"
     	href="{{ url('/emails/'.$email->id.'/edit') }}">Edit Email</a>
+
+    <a class="pull-right btn btn-link"
+    	href="{{ url('/send/'.$email->id) }}">Send Email</a>
 	</div>
 	<div class="row">
 		<div class="panel panel-default">

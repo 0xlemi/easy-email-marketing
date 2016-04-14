@@ -11,6 +11,8 @@
 |
 */
 
+Route::resource('groups', 'GroupsController');
+
 Route::get('clients/getAll', 'ClientsController@get_all');
 Route::resource('clients', 'ClientsController');
 
@@ -19,3 +21,7 @@ Route::auth();
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index');
+
+Route::get('/send/{id}', 'SendController@choose_client');
+Route::get('/send/review/{id_email}/{id_client}', 'SendController@review');
+Route::get('/send/{id_email}/{id_client}', 'SendController@send');

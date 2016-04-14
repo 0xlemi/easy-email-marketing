@@ -19,7 +19,9 @@
 		</div>
 	</div>
 	<div class="row">
-		<textarea id="summernote" name="content"></textarea>
+		<a-scene v-pre>
+			<textarea id="summernote" name="content"></textarea>
+		</a-scene>
 	</div>
 	<button type='submit' v-bind:class="{ 'disabled': is_disabled }" class='btn btn-primary btn-lg'>Create email</button>
 </form>

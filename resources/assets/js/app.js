@@ -8,10 +8,17 @@ var dt      = require( 'datatables.net-bs' )( window, $ );
 var Masonry = require('masonry-layout');
 var imagesLoaded = require('imagesloaded');
 var summernote = require('summernote');
+var wizard = require('twitter-bootstrap-wizard');
 
 // Make a jQuery plugin
 jQueryBridget( 'masonry', Masonry, $ );
 imagesLoaded.makeJQueryPlugin( $ );
+
+/*
+ * Custom Functions
+ *
+ */
+
 
 /*
  * VueJs code
@@ -29,7 +36,6 @@ imagesLoaded.makeJQueryPlugin( $ );
     },
   }
 });
-
 
 
 /*
@@ -52,23 +58,50 @@ $('#summernote').summernote({
 });
 
 /*
- * Click on Client datatable functionality
+ * Wizard Functionality
+ *
  */
-var clients_table = $('#clients_table').dataTable( {
-  "ajax": "clients/getAll"
-} );
-$('#clients_table tbody').on( 'click', 'tr', function () {
-    if ( $(this).hasClass('table_active') ) {
-        $(this).removeClass('table_active');
-    }
-    else {
-        clients_table.$('tr.table_active').removeClass('table_active');
-        $(this).addClass('table_active');
-    }
-    var id = clients_table.fnGetData(this)[0];
-    window.location.href = "clients/"+id;
+$('#rootwizard').bootstrapWizard({
+    'tabClass': 'nav nav-pills',
+    onTabClick: function(tab, navigation, index) {
+        return false;
+    },
 });
 
+
+/*
+ * Click on Client datatable functionality
+ */
+ if(typeof back !== 'undefined' && typeof back.url !== 'undefined'){
+    var clients_table = $('#clients_table').dataTable();
+    $('#clients_table tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('table_active') ) {
+            $(this).removeClass('table_active');
+        }
+        else {
+            clients_table.$('tr.table_active').removeClass('table_active');
+            $(this).addClass('table_active');
+        }
+        var id = clients_table.fnGetData(this)[0];
+        window.location.href = back.url+id;
+    });
+}
+
+if(typeof back !== 'undefined' && typeof back.url !== 'undefined'){
+    var groups_table = $('#groups_table').dataTable();
+        $('#groups_table tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('table_active') ) {
+                $(this).removeClass('table_active');
+            }
+            else {
+                groups_table.$('tr.table_active').removeClass('table_active');
+                $(this).addClass('table_active');
+            }
+            var id = groups_table.fnGetData(this)[0];
+            window.location.href = back.url+id;
+        });
+}
+$('#group_clients_table').dataTable();
 $('#client_transaction_table').dataTable();
 
 /*
@@ -81,6 +114,7 @@ var $grid = $('.grid').imagesLoaded( function() {
     columnWidth: '.grid-sizer'
   }); 
 });
+
 
 /*
 Taken from: https://gist.github.com/soufianeEL/3f8483f0f3dc9e3ec5d9

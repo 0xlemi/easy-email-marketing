@@ -55,8 +55,7 @@ class EmailsController extends Controller
         // ]);
         $email = Email::create([
             'name' => $request->name, 
-            'subject' => $request->subject,
-            'is_html' => 1,
+            'subject' => $request->subject
         ]);
 
         $result = $email->save_content($request->content);

@@ -20,12 +20,19 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Group::class, function (Faker\Generator $faker){
+	return[
+		'name' => $faker->sentence( 3, true),
+	];
+});
+
 $factory->define(App\Client::class, function (Faker\Generator $faker){
 	return[
 		'name' => $faker->firstName,
 		'last_name' => $faker->lastName,
 		'company' => $faker->company,
 		'email' => $faker->safeEmail,
+		'group_id' => rand(1, 2),
 	];
 });
 
@@ -38,7 +45,6 @@ $factory->define(App\Email::class, function(Faker\Generator $faker){
 	return[
 		'name' => $faker->word,
 		'subject' => $faker->sentence( 5, true),
-		'is_html' => 1,
 		'path_to_email' => 'random/path',
 		'path_thumbnail' => $img_path,
 	];

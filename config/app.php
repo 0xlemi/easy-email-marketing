@@ -161,6 +161,7 @@ return [
          */
         Intervention\Image\ImageServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
     ],
 
     /*
@@ -210,6 +211,7 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'ImageHTML' => Barryvdh\Snappy\Facades\SnappyImage::class,
+        'JavaScript' => Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
     ],
 
 ];

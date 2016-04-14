@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEmailTabel extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,10 @@ class CreateEmailTabel extends Migration
      */
     public function up()
     {
-        Schema::create('emails', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name');
-            $table->string('subject');
-            $table->string('path_thumbnail');
-            $table->string('path_to_email');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateEmailTabel extends Migration
      */
     public function down()
     {
-        Schema::drop('emails');
+        Schema::drop('groups');
     }
 }

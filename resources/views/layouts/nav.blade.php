@@ -20,9 +20,15 @@
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
                     @if(!Auth::guest())
-                        <li class="{{ Request::is('clients')? 'active':'' }}"><a href="{{ url('/clients') }}">Clients</a></li>
-                        <li class="{{ Request::is('emails')? 'active':'' }}"><a href="{{ url('/emails') }}">Emails</a></li>
-                        <li class="{{ Request::is('settings')? 'active':'' }}"><a href="{{ url('/settings') }}">Settings</a></li>
+                        <li class="{{ Request::is('clients')? 'active':'' }}">
+                            <a href="{{ url('/clients') }}">Clients</a>
+                        </li>
+                        <li class="{{ Request::is('emails')? 'active':'' }}">
+                            <a href="{{ url('/emails') }}">Emails</a>
+                        </li>
+                        <li class="{{ Request::is('groups')? 'active':'' }}">
+                            <a href="{{ url('/groups') }}">Groups</a>
+                        </li>
                     @endif
                 </ul>
 
@@ -40,6 +46,7 @@
 
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
+                                <li><a href="{{ url('/settings') }}"><i class="fa fa-btn fa-gears"></i>Settings</a></li>
                             </ul>
                         </li>
                     @endif

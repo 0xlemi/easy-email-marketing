@@ -32,4 +32,8 @@ class Client extends Model
 		return $this->hasMany('App\Transaction');
 	}
 
+	public function group(){
+   		return $this->belongsTo('App\Group');
+   	}
+
 }

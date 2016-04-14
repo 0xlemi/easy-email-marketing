@@ -9,7 +9,6 @@ class Email extends Model
 	protected $fillable = [
 		'name',
 		'subject',
-		'is_html',
 		'path_thumbnail',
 		'path_to_email',
 	];
