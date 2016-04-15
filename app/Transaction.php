@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-	protected $fillable = ['email_to'];
+	protected $fillable = [
+		'email_to',
+		'client_id',
+		'email_id',
+	];
 
     public function client(){
     	return $this->belongsTo('App\Client');

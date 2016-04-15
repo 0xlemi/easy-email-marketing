@@ -20,6 +20,7 @@ elixir(function(mix) {
     		'sweetalert.css',
     		'datatables.css',
     		'summernote.css',
+            'bootstrap-select.css'
     		], 'public/css/main.css')
     	.browserify('app.js')
     	.version(['css/app.css', 'css/less.css', 'css/main.css', 'js/app.js']);

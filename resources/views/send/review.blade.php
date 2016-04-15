@@ -38,7 +38,7 @@
 								</small>
 							</h4>
 							<h4><small>{{ $client->created_at }}</small></h4>
-							<h4><small>{{ $client->times_sent }}</small></h4>
+							<h4><small>{{ $client->transactions->count() }}</small></h4>
 						</div>
 					</div>
 		        </div>

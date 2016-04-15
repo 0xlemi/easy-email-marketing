@@ -25,6 +25,17 @@
 				<input type='text' class='form-control' name='company' required value="{{ $client->company }}">
 			</div>
 			<div class='form-group'>
+				<label for='group'>Group:</label><br>
+				<select class="selectpicker" name="group" data-live-search="true">
+					@foreach($groups as $group)
+						<option value="{{ $group->id }}"
+									data-tokens="{{ $group->name }}" 
+									{{ ($client->group->id == $group->id) ? 'selected':''}}>{{ $group->name }}
+						</option>
+					@endforeach
+				</select>
+			</div>
+			<div class='form-group'>
 				<label for='has_responded'>Has responded ?</label>
 				<br>
 				<input type="checkbox" name='has_responded'

@@ -18,6 +18,7 @@
 							<h4>Is suscribed?</h4>
 							<h4>Created at:</h4>
 							<h4>Times sent:</h4>
+							<h4>Group:</h4>
 						</div>
 						<div class="col-md-6">
 							<h4><small>{{ $client->company }}</small></h4>
@@ -38,7 +39,8 @@
 								</small>
 							</h4>
 							<h4><small>{{ $client->created_at }}</small></h4>
-							<h4><small>{{ $client->times_sent }}</small></h4>
+							<h4><small>{{ $client->transactions->count() }}</small></h4>
+							<h4><small>{{ $client->group->name }}</small></h4>
 						</div>
 					</div>
 		        </div>

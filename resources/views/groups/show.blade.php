@@ -41,8 +41,16 @@
 						<td>{{ $client->company }}</td>
 						<td>{{ $client->email }}</td>
 						<td>{{ $client->name." ".$client->last_name }}</td>
-						<td>{{ $client->has_responded }}</td>
-						<td>{{ $client->is_suscribed }}</td>
+						<td>
+							<span class="label label-{{ ($client->has_responded) ? 'success' : 'danger' }}">
+								{{ ($client->has_responded) ? 'Yes' : 'No' }}
+							</span>
+						</td>
+						<td>
+							<span class="label label-{{ ($client->is_suscribed) ? 'success' : 'danger' }}">
+								{{ ($client->is_suscribed) ? 'Yes' : 'No' }}
+							</span>
+						</td>
 					</tr>
 				@endforeach
 			</tbody>

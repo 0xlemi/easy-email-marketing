@@ -3,7 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Client;
+use App\Group;
+use Mail;
+use App\Transaction;
 class Email extends Model
 {
 	protected $fillable = [
@@ -32,6 +35,50 @@ class Email extends Model
             return false;
         }
 	}
+
+    public function send(Client $client){
+
+        $template_path = base_path('resources/views/templates/email_1.blade.php');
+
+        $content = '<html>'.file_get_contents(public_path($this->path_to_email)).'</html>';
+        file_put_contents($template_path, $content);
+
+        $data = [
+            'client'    => $client,
+            'email'     => $this,
+            'name'      => $client->name,
+            'last_name' => $client->last_name,
+            'company'   => $client->company,
+        ];
+
+        // Cannot use $this as lexical variable
+        $that = $this;
+        $result = Mail::send('templates.email_1',$data, function ($message) use ($client, $that) {
+            $message->from(env('SENDER_EMAIL'), env('SENDER_NAME'));
+
+            $message->to($client->email);
+            $message->subject($that->subject);
+        });
+        if($result){
+            Transaction::create([
+                'client_id' => $client->id,
+                'email_id' => $this->id,
+                'email_to' => $client->email,
+            ]);
+        }
+        return $result;
+    }
+
+    public function send_group(Group $group){
+        $number_of_emails_sent = 0;
+        foreach ($group->clients as $client) {
+            if($this->send($client)){
+                $number_of_emails_sent++;
+            }
+        }
+        return $number_of_emails_sent;
+
+    }
     
     public function transactions(){
 		return $this->hasMany('App\Transaction');

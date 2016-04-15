@@ -48,9 +48,6 @@ class GroupsController extends Controller
 
         $result = Group::create($request->all());
 
-        if($validator->fails()){
-            $result = false;
-        }
         if($result){
             flash()->success('Created', 'Group has been successfully created.');
             return redirect('/groups');

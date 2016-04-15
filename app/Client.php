@@ -11,6 +11,7 @@ class Client extends Model
 		'last_name',
 		'company',
 		'email',
+		'group_id',
 		'is_suscribed',
 		'has_responded',
 	];

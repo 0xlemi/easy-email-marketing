@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
 use App\Http\Requests;
 use App\Client;
+use App\Group;
 use Carbon\Carbon;
 use JavaScript;
 class ClientsController extends Controller
@@ -37,38 +38,14 @@ class ClientsController extends Controller
     }
 
     /**
-     * Temporary function, to let the datatable get the client information throught ajax
-     * Array formated for datatable
-     * @return array 
-     */
-    public function get_all(Request $request){
-        if($request->ajax()){
-            $clients = Client::all();
-            $data = array();
-            foreach($clients as $client){
-                $row = [
-                    $client->id,
-                    $client->company,
-                    $client->email,
-                    $client->name.' '.$client->last_name,
-                    $client->has_responded,
-                    $client->is_suscribed,
-                ];
-                $data[] = $row;
-            }
-            return [ 'data' => $data];
-        }
-        return redirect('clients');
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view('clients.create');
+        $groups = Group::all();
+        return view('clients.create',compact('groups'));
     }
 
     /**
@@ -84,6 +61,7 @@ class ClientsController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'company' => $request->company,
+            'group_id' => $request->group,
             'is_suscribed' => ($request->is_suscribed) ? 1 : 0,
             'has_responded' => ($request->has_responded) ? 1 : 0,
         ];
@@ -113,7 +91,8 @@ class ClientsController extends Controller
     public function edit($id)
     {
         $client = Client::findOrFail($id);
-        return view('clients.edit', compact('client'));
+        $groups = Group::all();
+        return view('clients.edit', compact('client', 'groups'));
     }
 
     /**
@@ -129,6 +108,7 @@ class ClientsController extends Controller
         $client->name = $request->name;
         $client->last_name = $request->last_name;
         $client->email = $request->email;
+        $client->group_id = $request->group;
         $client->is_suscribed = ($request->is_suscribed) ? 1 : 0;
         $client->has_responded = ($request->has_responded) ? 1 : 0;
         if($client->save()){

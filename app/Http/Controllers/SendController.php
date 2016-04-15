@@ -8,6 +8,7 @@ use App\Http\Requests;
 use JavaScript;
 use App\Email;
 use App\Client;
+use App\Group;
 use Mail;
 class SendController extends Controller
 {
@@ -25,10 +26,18 @@ class SendController extends Controller
     	$email = Email::findOrFail($id);
     	$clients = Client::all();
     	JavaScript::put([
-            'getAll_path' => url('clients/getAll'),
             'url' => url('send/review/'.$email->id).'/',
         ]);
-    	return view('send.clients');
+    	return view('send.clients', compact('email', 'clients'));
+    }
+
+    public function choose_group($id){
+        $email = Email::findOrFail($id);
+        $groups = Group::all();
+        JavaScript::put([
+            'url' => url('send/group/review/'.$email->id).'/',
+        ]);
+        return view('send.group', compact('email','groups'));
     }
 
     public function review($id_email, $id_client){
@@ -37,36 +46,40 @@ class SendController extends Controller
     	return view('send.review',compact('email','client'));
     }
 
+    public function review_group($id_email, $id_group){
+        $email = Email::findOrFail($id_email);
+        $group = Group::findOrFail($id_group);
+        return view('send.group.review',compact('email','group'));
+    }
+
     public function send($id_email, $id_client){
     	$email = Email::findOrFail($id_email);
     	$client = Client::findOrFail($id_client);
 
-		$template_path = base_path('resources/views/templates/email_1.blade.php');
-
-		$content = '<html>'.file_get_contents(public_path($email->path_to_email)).'</html>';
-		file_put_contents($template_path, $content);
-
-		$data = [
-			'client' 	=> $client,
-			'email' 	=> $email,
-			'name' 		=> $client->name,
-			'last_name' => $client->last_name,
-			'company' 	=> $client->company,
-		];
-		$result = Mail::send('templates.email_1',$data, function ($message) use ($client, $email) {
-		    $message->from('us@market.poolreportsystem.com', 'Laravel');
-
-		    $message->to($client->email);
-		    $message->subject($email->subject);
-		});
-
-		if($result){
+		if($email->send($client)){
 			flash()->success('Email sent', 'The email was sent to '.$client->email.' successfully.');
 			return redirect('emails/'.$email->id);
 		}else{
 			flash()->error('Not sent', 'Unable to send email to '.$client->email);
 			return redirect()->back();
 		}
+    }
+
+    public function send_to_group($id_email, $id_group){
+        $email = Email::findOrFail($id_email);
+        $group = Group::findOrFail($id_group);
+
+        $num_of_emails = $group->clients->count();
+        $num_of_emails_sent = $email->send_group($group);
+
+        if($num_of_emails == $num_of_emails_sent){
+            flash()->success('All emails sent', 'There were '.$num_of_emails_sent.' emails successfully sent.');
+            return redirect('emails/'.$email->id);
+        }
+        flash()->overlay('Some emails where not sent', 
+                'Unable to send '.$num_of_emails-$num_of_emails_sent.' out of '.$num_of_emails.'emails.', 'error');
+        return redirect()->back();
+
     }
 
 }

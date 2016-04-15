@@ -9,6 +9,7 @@ var Masonry = require('masonry-layout');
 var imagesLoaded = require('imagesloaded');
 var summernote = require('summernote');
 var wizard = require('twitter-bootstrap-wizard');
+var bootstrapSelect = require('bootstrap-select');
 
 // Make a jQuery plugin
 jQueryBridget( 'masonry', Masonry, $ );
@@ -101,6 +102,12 @@ if(typeof back !== 'undefined' && typeof back.url !== 'undefined'){
             window.location.href = back.url+id;
         });
 }
+
+$('#group_review_clients_table').dataTable( {
+  "bLengthChange": false,
+  "pageLength": 5,
+
+} );
 $('#group_clients_table').dataTable();
 $('#client_transaction_table').dataTable();
 

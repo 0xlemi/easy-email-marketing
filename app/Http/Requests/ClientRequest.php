@@ -26,6 +26,7 @@ class ClientRequest extends Request
         return [
             'email' => 'required|email|unique:clients|max:255',
             'company' => 'required|max:255',
+            'group' => 'required|integer',
         ];
     }
 }

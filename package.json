@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",
+    "bootstrap-select": "^1.10.0",
     "bootstrap-switch": "^3.3.2",
     "datatables.net": "^1.10.11",
     "datatables.net-bs": "^1.10.11",

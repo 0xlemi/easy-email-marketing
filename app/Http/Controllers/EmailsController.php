@@ -49,10 +49,10 @@ class EmailsController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'name' => 'required|unique:emails|max:255',
-        //     'subject' => 'required|max:45',
-        // ]);
+        $this->validate($request, [
+            'name' => 'required|unique:emails|max:255',
+            'subject' => 'required|max:45',
+        ]);
         $email = Email::create([
             'name' => $request->name, 
             'subject' => $request->subject
@@ -103,6 +103,10 @@ class EmailsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|unique:emails|max:255',
+            'subject' => 'required|max:45',
+        ]);
         $email = Email::findOrFail($id);
         $email->name = $request->name;
         $email->subject = $request->subject;
